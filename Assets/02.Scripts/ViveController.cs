@@ -16,6 +16,7 @@ public class ViveController : MonoBehaviour
 
     private SteamVR_Action_Boolean grap;
     private SteamVR_Action_Vibration heptic;
+    private SteamVR_Action_Boolean headSet;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,7 @@ public class ViveController : MonoBehaviour
         teleport = SteamVR_Actions.default_Teleport;
         grap = SteamVR_Input.GetBooleanAction("GrabGrip");
         heptic = SteamVR_Actions.default_Haptic;
+        headSet = SteamVR_Input.GetAction<SteamVR_Action_Boolean>("HeadsetOnHead");
     }
 
     // Update is called once per frame
@@ -50,7 +52,18 @@ public class ViveController : MonoBehaviour
         if (grap.GetStateDown(any))
         {
             Debug.Log("Grab");
-            heptic.Execute(0.5f, 0.7f, 150.0f, 0.8f, any);
+            heptic.Execute(0.1f, 0.5f, 200.0f, 0.8f, any);
         }
+
+        if (headSet.GetStateDown(SteamVR_Input_Sources.Head))
+        {
+            Debug.Log("착용");
+        }
+        
+        if (headSet.GetStateUp(SteamVR_Input_Sources.Head))
+        {
+            Debug.Log("미착용");
+        }
+
     }
 }
