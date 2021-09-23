@@ -15,6 +15,7 @@ public class ViveController : MonoBehaviour
     private SteamVR_Action_Boolean teleport;
 
     private SteamVR_Action_Boolean grap;
+    private SteamVR_Action_Vibration heptic;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,7 @@ public class ViveController : MonoBehaviour
         trackPadPosition = SteamVR_Actions.default_TrackPadPosition;
         teleport = SteamVR_Actions.default_Teleport;
         grap = SteamVR_Input.GetBooleanAction("GrabGrip");
+        heptic = SteamVR_Actions.default_Haptic;
     }
 
     // Update is called once per frame
@@ -48,6 +50,7 @@ public class ViveController : MonoBehaviour
         if (grap.GetStateDown(any))
         {
             Debug.Log("Grab");
+            heptic.Execute(0.5f, 0.7f, 150.0f, 0.8f, any);
         }
     }
 }
