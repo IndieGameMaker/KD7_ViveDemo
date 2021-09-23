@@ -10,6 +10,8 @@ public class LaserPointer : MonoBehaviour
     private LineRenderer line;
     private Transform tr;
 
+    private SteamVR_Action_Boolean teleport;
+
     [Range(5.0f,30.0f)]
     public float maxDistance = 10.0f;
 
@@ -24,6 +26,8 @@ public class LaserPointer : MonoBehaviour
     {
         pose = GetComponent<SteamVR_Behaviour_Pose>();
         hand = pose.inputSource;
+        teleport = SteamVR_Actions.default_Teleport;
+
         tr = GetComponent<Transform>();
         pointerPrefab = Resources.Load<GameObject>("Pointer");
         pointer = Instantiate<GameObject>(pointerPrefab);
@@ -63,5 +67,23 @@ public class LaserPointer : MonoBehaviour
             pointer.transform.position = tr.position + (tr.forward * maxDistance);
             pointer.transform.rotation = Quaternion.LookRotation(tr.forward);
         }
+
+        if (teleport.GetStateDown(hand))
+        {
+            if (Physics.Raycast(tr.position, tr.forward, out hit, maxDistance, 1<<8))
+            {
+                //Fade Out
+                SteamVR_Fade.Start(Color.black, 0);
+                StartCoroutine(Teleport(hit.point));
+            }
+        }
+    }
+
+    IEnumerator Teleport(Vector3 pos)
+    {
+        tr.parent.position = pos;
+        yield return new WaitForSeconds(0.3f);
+        //Fade In
+        SteamVR_Fade.Start(Color.clear, 0.2f);
     }
 }
