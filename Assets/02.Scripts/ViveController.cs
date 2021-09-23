@@ -10,24 +10,29 @@ public class ViveController : MonoBehaviour
     public SteamVR_Input_Sources any = SteamVR_Input_Sources.Any;
 
     public SteamVR_Action_Boolean trigger;
+    public SteamVR_Action_Boolean trackPadTouch; //트랙패드 터치 여부
+    public SteamVR_Action_Vector2 trackPadPosition; //트랙패드의 좌푯값(x,y)
 
     // Start is called before the first frame update
     void Start()
     {
         trigger = SteamVR_Actions.default_InteractUI;
+        trackPadTouch = SteamVR_Actions.default_TrackPadTouch;
+        trackPadPosition = SteamVR_Actions.default_TrackPadPosition;
     }
 
     // Update is called once per frame
     void Update()
     {   
-        if (trigger.GetStateDown(leftHand))
-        {
-            Debug.Log("Left Trigger Down");
-        }
-
         if (trigger.GetStateDown(rightHand))
         {
             Debug.Log("Right Trigger Down");
+        }
+
+        if (trackPadTouch.GetState(any))
+        {
+            Vector2 pos = trackPadPosition.GetAxis(any);
+            Debug.Log($"x={pos.x}, y={pos.y}");
         }
         
     }
