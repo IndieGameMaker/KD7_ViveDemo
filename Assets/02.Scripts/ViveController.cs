@@ -10,6 +10,7 @@ public class ViveController : MonoBehaviour
     public SteamVR_Input_Sources any = SteamVR_Input_Sources.Any;
 
     public SteamVR_Action_Boolean trigger;
+    public SteamVR_Action_Boolean trigger2;
 
     // Start is called before the first frame update
     void Start()
