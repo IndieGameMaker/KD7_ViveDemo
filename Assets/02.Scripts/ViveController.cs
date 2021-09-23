@@ -14,6 +14,8 @@ public class ViveController : MonoBehaviour
     public SteamVR_Action_Vector2 trackPadPosition; //트랙패드의 좌푯값(x,y)
     private SteamVR_Action_Boolean teleport;
 
+    private SteamVR_Action_Boolean grap;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +23,7 @@ public class ViveController : MonoBehaviour
         trackPadTouch = SteamVR_Actions.default_TrackPadTouch;
         trackPadPosition = SteamVR_Actions.default_TrackPadPosition;
         teleport = SteamVR_Actions.default_Teleport;
+        grap = SteamVR_Input.GetBooleanAction("GrabGrip");
     }
 
     // Update is called once per frame
@@ -40,6 +43,11 @@ public class ViveController : MonoBehaviour
         if (teleport.GetStateUp(any))
         {
             Debug.Log("Teleport Up");
+        }
+
+        if (grap.GetStateDown(any))
+        {
+            Debug.Log("Grab");
         }
     }
 }
