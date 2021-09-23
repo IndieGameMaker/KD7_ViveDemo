@@ -13,6 +13,10 @@ public class LaserPointer : MonoBehaviour
     [Range(5.0f,30.0f)]
     public float maxDistance = 10.0f;
 
+    public Color color = Color.blue;
+
+    private RaycastHit hit;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,12 +34,25 @@ public class LaserPointer : MonoBehaviour
 
         line.positionCount = 2;
         line.SetPosition(0, Vector3.zero);
-        line.SetPosition(1, )
+        line.SetPosition(1, new Vector3(0, 0, maxDistance));
+
+        line.startWidth = 0.03f;
+        line.endWidth = 0.005f;
+
+        line.material = new Material(Shader.Find("Unlit/Color"));
+        line.material.color = this.color;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Physics.Raycast(tr.position, tr.forward, out hit, maxDistance))
+        {
+            line.SetPosition(1, new Vector3(0,0, hit.distance));
+        }
+        else
+        {
+            line.SetPosition(1, new Vector3(0, 0, maxDistance));
+        }
     }
 }
