@@ -16,6 +16,8 @@ public class LaserPointer : MonoBehaviour
     public Color color = Color.blue;
 
     private RaycastHit hit;
+    private GameObject pointerPrefab;
+    private GameObject pointer;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +25,9 @@ public class LaserPointer : MonoBehaviour
         pose = GetComponent<SteamVR_Behaviour_Pose>();
         hand = pose.inputSource;
         tr = GetComponent<Transform>();
+        pointerPrefab = Resources.Load<GameObject>("Pointer");
+        pointer = Instantiate<GameObject>(pointerPrefab);
+
         CreateLine();
     }
 
@@ -49,10 +54,14 @@ public class LaserPointer : MonoBehaviour
         if (Physics.Raycast(tr.position, tr.forward, out hit, maxDistance))
         {
             line.SetPosition(1, new Vector3(0,0, hit.distance));
+            pointer.transform.position = hit.point + (hit.normal * 0.01f);
+            pointer.transform.rotation = Quaternion.LookRotation(hit.normal);
         }
         else
         {
             line.SetPosition(1, new Vector3(0, 0, maxDistance));
+            pointer.transform.position = tr.position + (tr.forward * maxDistance);
+            pointer.transform.rotation = Quaternion.LookRotation(tr.forward);
         }
     }
 }
