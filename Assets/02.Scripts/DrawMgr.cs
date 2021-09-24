@@ -23,7 +23,17 @@ public class DrawMgr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (trigger.GetStateDown(leftHand))
+        {
+            CreateLine();
+        }
+
+        if (trigger.GetState(leftHand))
+        {
+            Vector3 pos = pose.GetLocalPosition(leftHand);
+            ++line.positionCount;
+            line.SetPosition(line.positionCount-1, pos);
+        }
     }
 
     void CreateLine()
@@ -35,5 +45,11 @@ public class DrawMgr : MonoBehaviour
         mt.color = lineColor;
         line.material = mt;
         line.useWorldSpace = false;
+        line.numCapVertices = 20;
+
+        line.startWidth = line.endWidth = lineWidth;
+        line.positionCount = 1;
+        Vector3 pos = pose.GetLocalPosition(leftHand);
+        line.SetPosition(0, pos);
     }
 }
