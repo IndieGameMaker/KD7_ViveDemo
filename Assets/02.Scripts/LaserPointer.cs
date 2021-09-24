@@ -90,9 +90,16 @@ public class LaserPointer : MonoBehaviour
             if (currObject != prevObject)
             {
                 // 현재 버튼 PointerEnter 이벤트를 전달
-                
+                ExecuteEvents.Execute(currObject
+                                    , new PointerEventData(EventSystem.current)
+                                    , ExecuteEvents.pointerEnterHandler);
 
                 // 이전 버튼 PointerExit 이벤트를 전달
+                ExecuteEvents.Execute(prevObject
+                                    , new PointerEventData(EventSystem.current)
+                                    , ExecuteEvents.pointerExitHandler);  
+
+                prevObject = currObject;              
             }
         }
     }
