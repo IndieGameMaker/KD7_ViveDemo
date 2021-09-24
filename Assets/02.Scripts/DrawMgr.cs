@@ -39,6 +39,9 @@ public class DrawMgr : MonoBehaviour
     void CreateLine()
     {
         GameObject lineObject = new GameObject("Line");
+        lineObject.transform.SetParent(transform.parent);
+        lineObject.transform.localPosition = Vector3.zero;
+
         line = lineObject.AddComponent<LineRenderer>();
 
         Material mt = new Material(Shader.Find("Unlit/Color"));
