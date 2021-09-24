@@ -102,6 +102,16 @@ public class LaserPointer : MonoBehaviour
                 prevObject = currObject;              
             }
         }
+        else
+        {
+            if (prevObject != null)
+            {
+                ExecuteEvents.Execute(prevObject
+                                    , new PointerEventData(EventSystem.current)
+                                    , ExecuteEvents.pointerExitHandler); 
+                prevObject = null;                
+            }
+        }
     }
 
     IEnumerator Teleport(Vector3 pos)
