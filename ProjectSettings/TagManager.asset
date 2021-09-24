@@ -6,6 +6,7 @@ TagManager:
   tags:
   - projectile
   - FxTemporaire
+  - GRAB_OBJECT
   layers:
   - Default
   - TransparentFX
