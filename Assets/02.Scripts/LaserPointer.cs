@@ -26,11 +26,15 @@ public class LaserPointer : MonoBehaviour
     private GameObject currObject;
     private GameObject prevObject;
 
+    // 트리거 액션설정
+    private SteamVR_Action_Boolean trigger;
+
     void Start()
     {
         pose = GetComponent<SteamVR_Behaviour_Pose>();
         hand = pose.inputSource;
         teleport = SteamVR_Actions.default_Teleport;
+        trigger = SteamVR_Actions.default_InteractUI;
 
         tr = GetComponent<Transform>();
         pointerPrefab = Resources.Load<GameObject>("Pointer");
@@ -99,7 +103,14 @@ public class LaserPointer : MonoBehaviour
                                     , new PointerEventData(EventSystem.current)
                                     , ExecuteEvents.pointerExitHandler);  
 
-                prevObject = currObject;              
+                prevObject = currObject;            
+            }
+
+            if (trigger.GetStateDown(hand))
+            {
+                ExecuteEvents.Execute(currObject
+                                    , new PointerEventData(EventSystem.current)
+                                    , ExecuteEvents.pointerClickHandler);
             }
         }
         else
