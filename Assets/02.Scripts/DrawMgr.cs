@@ -25,4 +25,15 @@ public class DrawMgr : MonoBehaviour
     {
         
     }
+
+    void CreateLine()
+    {
+        GameObject lineObject = new GameObject("Line");
+        line = lineObject.AddComponent<LineRenderer>();
+
+        Material mt = new Material(Shader.Find("Unlit/Color"));
+        mt.color = lineColor;
+        line.material = mt;
+        line.useWorldSpace = false;
+    }
 }
