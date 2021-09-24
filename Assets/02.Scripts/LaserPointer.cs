@@ -132,4 +132,9 @@ public class LaserPointer : MonoBehaviour
         //Fade In
         SteamVR_Fade.Start(Color.clear, 0.2f);
     }
+
+    public void OnButtonClick(string msg)
+    {
+        Debug.Log($"{msg} button clicked !!!!");
+    }
 }
