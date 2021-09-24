@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Valve.VR;
 
 public class LaserPointer : MonoBehaviour
@@ -21,7 +22,10 @@ public class LaserPointer : MonoBehaviour
     private GameObject pointerPrefab;
     private GameObject pointer;
 
-    // Start is called before the first frame update
+    //이벤트를 전달할 버튼의 저장변수
+    private GameObject currObject;
+    private GameObject prevObject;
+
     void Start()
     {
         pose = GetComponent<SteamVR_Behaviour_Pose>();
@@ -52,7 +56,6 @@ public class LaserPointer : MonoBehaviour
         line.material.color = this.color;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Physics.Raycast(tr.position, tr.forward, out hit, maxDistance))
@@ -75,6 +78,21 @@ public class LaserPointer : MonoBehaviour
                 //Fade Out
                 SteamVR_Fade.Start(Color.black, 0);
                 StartCoroutine(Teleport(hit.point));
+            }
+        }
+
+        if (Physics.Raycast(tr.position, tr.forward, out hit, maxDistance, 1<<9))
+        {
+            //현재 버튼객체를 저장
+            currObject = hit.collider.gameObject;
+
+            //현재 버튼과 이전 버튼이 다른 경우 => 새로운 버튼을 지시
+            if (currObject != prevObject)
+            {
+                // 현재 버튼 PointerEnter 이벤트를 전달
+                
+
+                // 이전 버튼 PointerExit 이벤트를 전달
             }
         }
     }
